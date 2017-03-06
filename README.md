@@ -1,8 +1,15 @@
 # Complete starter seed project for Angular 2
 
-## JG: Stripped
+## JG:
+
+Stripped:
+
 - angular material
 - universal
+
+Compile:
+- `yarn run compile:dev` runs [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) with JIT
+- `yarn run compile:aot:dev` with AOT respectively to compare bundle sizes and page load
 
 ## Material Branch with Universal (Server-side rendering) support
 
