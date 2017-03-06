@@ -2,6 +2,7 @@
 
 ## JG: Stripped
 - angular material
+- universal
 
 ## Material Branch with Universal (Server-side rendering) support
 
