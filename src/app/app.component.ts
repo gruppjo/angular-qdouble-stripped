@@ -20,7 +20,9 @@ export class AppComponent {
   constructor(
     public route: ActivatedRoute,
     public router: Router
-  ) { }
+  ) {
+    console.log('store', STORE_DEV_TOOLS);
+  }
 
   activateEvent(event) {
     if (ENV === 'development') {

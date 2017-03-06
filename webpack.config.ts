@@ -6,11 +6,11 @@
 import 'ts-helpers';
 
 import {
-  DEV_PORT, PROD_PORT, UNIVERSAL_PORT, EXCLUDE_SOURCE_MAPS, HOST,
+  DEV_PORT, PROD_PORT, EXCLUDE_SOURCE_MAPS, HOST,
   USE_DEV_SERVER_PROXY, DEV_SERVER_PROXY_CONFIG, DEV_SERVER_WATCH_OPTIONS,
   DEV_SOURCE_MAPS, PROD_SOURCE_MAPS, STORE_DEV_TOOLS,
   MY_COPY_FOLDERS, MY_POLYFILL_DLLS, MY_VENDOR_DLLS, MY_CLIENT_PLUGINS, MY_CLIENT_PRODUCTION_PLUGINS,
-  MY_CLIENT_RULES, MY_SERVER_RULES, MY_SERVER_INCLUDE_CLIENT_PACKAGES
+  MY_CLIENT_RULES, MY_SERVER_INCLUDE_CLIENT_PACKAGES
 } from './constants';
 
 const {
@@ -41,17 +41,12 @@ const E2E = EVENT.includes('e2e');
 const HMR = hasProcessFlag('hot');
 const PROD = EVENT.includes('prod');
 const WATCH = hasProcessFlag('watch');
-const UNIVERSAL = EVENT.includes('universal');
 
 let port: number;
-if (!UNIVERSAL) {
-  if (PROD) {
-    port = PROD_PORT;
-  } else {
-    port = DEV_PORT;
-  }
+if (PROD) {
+  port = PROD_PORT;
 } else {
-  port = UNIVERSAL_PORT;
+  port = DEV_PORT;
 }
 
 const PORT = port;
@@ -70,7 +65,6 @@ const CONSTANTS = {
   HOST: JSON.stringify(HOST),
   PORT: PORT,
   STORE_DEV_TOOLS: JSON.stringify(STORE_DEV_TOOLS),
-  UNIVERSAL: UNIVERSAL
 };
 
 const DLL_VENDORS = [
@@ -197,7 +191,7 @@ const commonConfig = function webpackConfig(): WebpackConfig {
       }),
       ...MY_CLIENT_PRODUCTION_PLUGINS,
     );
-    if (!E2E && !WATCH && !UNIVERSAL) {
+    if (!E2E && !WATCH) {
       config.plugins.push(
         new BundleAnalyzerPlugin({analyzerPort: 5000})
       );
@@ -239,26 +233,14 @@ const clientConfig = function webpackConfig(): WebpackConfig {
       vendor: [...DLL_VENDORS]
     };
   } else {
-    if (!UNIVERSAL) {
-      if (AOT) {
-        config.entry = {
-          main: './src/main.browser.aot'
-        };
-      } else {
-        config.entry = {
-          main: './src/main.browser'
-        };
-      }
+    if (AOT) {
+      config.entry = {
+        main: './src/main.browser.aot'
+      };
     } else {
-      if (AOT) {
-        config.entry = {
-          main: './src/main.browser.universal.aot'
-        };
-      } else {
-        config.entry = {
-          main: './src/main.browser.universal'
-        };
-      }
+      config.entry = {
+        main: './src/main.browser'
+      };
     }
   }
 
@@ -312,65 +294,11 @@ const clientConfig = function webpackConfig(): WebpackConfig {
 
 } ();
 
-// SERVERCONFIG only for UNIVERSAL
-const serverConfig: WebpackConfig = {
-  target: 'node',
-  entry: './src/server',
-  output: {
-    filename: 'index.js',
-    path: root('dist/server'),
-    libraryTarget: 'commonjs2'
-  },
-  module: {
-    rules: [
-      { test: /angular2-material/, loader: 'imports-loader?window=>global' },
-      ...MY_SERVER_RULES
-    ],
-  },
-  externals: includeClientPackages([
-    // include these client packages so we can transform their source with webpack loaders
-    // '@angular2-material/button',
-    // '@angular2-material/card',
-    // '@angular2-material/checkbox',
-    // '@angular2-material/core',
-    // '@angular2-material/grid',
-    // '@angular2-material/icon',
-    // '@angular2-material/input',
-    // '@angular2-material/list',
-    // '@angular2-material/menu',
-    // '@angular2-material/progress',
-    // '@angular2-material/progress',
-    // '@angular2-material/radio',
-    // '@angular2-material/sidenav',
-    // '@angular2-material/slider',
-    // '@angular2-material/slide',
-    // '@angular2-material/tabs',
-    // '@angular2-material/toolbar',
-    // '@angular2-material/tooltip',
-    ...MY_SERVER_INCLUDE_CLIENT_PACKAGES
-  ]),
-  node: {
-    global: true,
-    __dirname: true,
-    __filename: true,
-    process: true,
-    Buffer: true
-  }
-};
-
 const defaultConfig = {
   resolve: {
     extensions: ['.ts', '.js', '.json']
   }
 };
 
-if (!UNIVERSAL) {
-  DLL ? console.log('BUILDING DLLs') : console.log('BUILDING APP');
-  module.exports = webpackMerge({}, defaultConfig, commonConfig, clientConfig);
-} else {
-  console.log('BUILDING UNIVERSAL');
-  module.exports = [
-    webpackMerge({}, defaultConfig, commonConfig, clientConfig),
-    webpackMerge({}, defaultConfig, commonConfig, serverConfig)
-  ];
-}
+DLL ? console.log('BUILDING DLLs') : console.log('BUILDING APP');
+module.exports = webpackMerge({}, defaultConfig, commonConfig, clientConfig);
