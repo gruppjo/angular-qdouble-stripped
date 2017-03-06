@@ -34,24 +34,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.form.get('name').setValue(this.user.name);
   }
 
   clearName() {
     this.store.dispatch(this.userActions.editUser(
       Object.assign({}, this.user, { name: '' }
       )));
-
-    this.form.get('name').setValue('');
   }
 
   logout() {
     this.store.dispatch(this.userActions.logout());
   }
 
-  submitState() {
+  submitState(value: string) {
     this.store.dispatch(this.userActions.editUser(
-      Object.assign({}, this.user, { name: this.form.get('name').value }
+      Object.assign({}, this.user, { name: value }
       )));
   }
 
