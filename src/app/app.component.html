@@ -1,5 +1,5 @@
 <template ngFor let-view [ngForOf]="views" let-even="even" let-odd="odd" let-rowIndex="index">
-  <a [routerLink]="view.link" routerLinkActive="active-link">
+  <a class="color" [routerLink]="view.link" routerLinkActive="active-link">
     <span>icon({{view.icon}}) </span>
     <span>{{view.name}}</span>
     <span class="secondary">{{view.description}}</span>
