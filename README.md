@@ -7,6 +7,10 @@ Stripped:
 - universal
 - ngrx/hmr
 
+Start:
+- dev: `yarn start`
+- build (aot, lazy, treeshake): `yarn compile`, `yarn server:prod`
+
 Scripts:
 - `yarn run server:prod` creates and serves an AOT build ([localhost:8088](http://localhost:8088))
 - `yarn run compile:dev` runs [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) with JIT
