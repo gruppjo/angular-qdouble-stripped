@@ -5,6 +5,7 @@
 Stripped:
 - angular material
 - universal
+- ngrx/hmr
 
 Scripts:
 - `yarn run server:prod` creates and serves an AOT build ([localhost:8088](http://localhost:8088))
