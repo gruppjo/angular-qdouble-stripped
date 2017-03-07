@@ -86,7 +86,3 @@ exports.MY_TEST_RULES = [
 exports.MY_TEST_PLUGINS = [
   // use this to import your own Test webpack config plugins.
 ]
-
-exports.MY_SERVER_INCLUDE_CLIENT_PACKAGES = [
-  // include these client packages so we can transform their source with webpack loaders
-]
