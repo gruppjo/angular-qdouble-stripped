@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 
-import { AppState } from '../reducers';
-import { Store } from '@ngrx/store';
-import { UserActions } from '../user/user.actions';
 import { User } from '../user/user.model';
 
 @Component({
@@ -18,38 +14,29 @@ export class DashboardComponent implements OnDestroy, OnInit {
   destroyed$: Subject<any> = new Subject<any>();
   form: FormGroup;
   nameLabel = 'Enter your name';
-  user: User;
-  user$: Observable<User>;
+  user: User = {
+    name: ''
+  };
   constructor(
     fb: FormBuilder,
-    private store: Store<AppState>,
-    private userActions: UserActions,
   ) {
     this.form = fb.group({
       name: ''
     });
-    this.user$ = this.store.select(state => state.user.user);
-    this.user$.takeUntil(this.destroyed$)
-      .subscribe(user => { this.user = user; });
   }
 
   ngOnInit() {
   }
 
   clearName() {
-    this.store.dispatch(this.userActions.editUser(
-      Object.assign({}, this.user, { name: '' }
-      )));
+    this.user.name = '';
   }
 
   logout() {
-    this.store.dispatch(this.userActions.logout());
   }
 
   submitState(value: string) {
-    this.store.dispatch(this.userActions.editUser(
-      Object.assign({}, this.user, { name: value }
-      )));
+    this.user.name = value;
   }
 
   ngOnDestroy() {

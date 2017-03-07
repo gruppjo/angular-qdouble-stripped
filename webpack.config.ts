@@ -78,15 +78,6 @@ const DLL_VENDORS = [
   '@angular/platform-browser-dynamic',
   '@angular/platform-server',
   '@angular/router',
-  '@ngrx/core',
-  '@ngrx/core/add/operator/select.js',
-  '@ngrx/effects',
-  '@ngrx/router-store',
-  '@ngrx/store',
-  '@ngrx/store-devtools',
-  '@ngrx/store-log-monitor',
-  'ngrx-store-freeze',
-  'ngrx-store-logger',
   'rxjs',
   ...MY_VENDOR_DLLS
 ];
@@ -119,7 +110,6 @@ const commonConfig = function webpackConfig(): WebpackConfig {
       {
         test: /\.ts$/,
         loaders: [
-          '@angularclass/hmr-loader',
           'awesome-typescript-loader?{configFileName: "tsconfig.webpack.json"}',
           'angular2-template-loader',
           'angular-router-loader?loader=system&genDir=compiled&aot=' + AOT
@@ -223,7 +213,6 @@ const clientConfig = function webpackConfig(): WebpackConfig {
       app_assets: ['./src/main.browser'],
       polyfill: [
         'sockjs-client',
-        '@angularclass/hmr',
         'ts-helpers',
         'zone.js',
         'core-js/client/shim.js',

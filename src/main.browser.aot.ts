@@ -15,8 +15,4 @@ export function main() {
     .catch(err => console.log(err));
 }
 
-export function bootstrapDomReady() {
-  document.addEventListener('DOMContentLoaded', main);
-}
-
-bootstrapDomReady();
+document.addEventListener('DOMContentLoaded', main);
