@@ -15,7 +15,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   form: FormGroup;
   nameLabel = 'Enter your name';
   user: User = {
-    name: ''
+    name: 'Angular user'
   };
   constructor(
     fb: FormBuilder,
