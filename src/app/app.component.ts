@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { views } from './app-nav-views';
 import { MOBILE } from './services/constants';
 
 @Component({
@@ -15,7 +14,28 @@ export class AppComponent {
   );
   mobile = MOBILE;
   sideNavMode = MOBILE ? 'over' : 'side';
-  views = views;
+  views = [
+    {
+      name: 'Dashboard',
+      icon: 'home',
+      link: ['']
+    },
+    {
+      name: 'Lazy',
+      icon: 'file_download',
+      link: ['lazy']
+    },
+      {
+      name: 'Sync',
+      icon: 'done',
+      link: ['sync']
+    },
+    {
+      name: 'Bad Link',
+      icon: 'error',
+      link: ['wronglink']
+    }
+  ];
 
   constructor(
     public route: ActivatedRoute,

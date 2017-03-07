@@ -13,29 +13,72 @@ import { HttpModule } from '@angular/http';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 import { Store } from '@ngrx/store';
-
-import { APP_DECLARATIONS } from './app.declarations';
-import { APP_ENTRY_COMPONENTS } from './app.entry-components';
-import { APP_IMPORTS } from './app.imports';
-import { APP_PROVIDERS } from './app.providers';
-
-import { AppComponent } from './app.component';
-
 import { AppState } from './reducers';
+
+// DECLARATIONS
+import { AppComponent } from './app.component';
+import { DashboardComponent } from './features/dashboard.component';
+import { NotFound404Component } from './not-found404.component';
+
+// PROVIDERS
+import { UserActions } from './user/user.actions';
+import { UserService } from './user/user.service';
+
+// IMPORTS
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { IdlePreload, IdlePreloadModule } from '@angularclass/idle-preload';
+
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStoreModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { useLogMonitor } from '@ngrx/store-log-monitor';
+
+import { routes } from './app.routing';
+import { rootReducer } from './reducers';
+import { StoreDevToolsModule } from './features/store-devtools.module';
+import { UserEffects } from './user/user.effects';
+
+const STORE_DEV_TOOLS_IMPORTS = [];
+if (ENV === 'development' && !AOT &&
+  ['monitor', 'both'].includes(STORE_DEV_TOOLS) // set in constants.js file in project root
+) STORE_DEV_TOOLS_IMPORTS.push(...[
+  StoreDevtoolsModule.instrumentStore({
+    monitor: useLogMonitor({
+      visible: true,
+      position: 'right'
+    })
+  })
+]);
+
+export const APP_IMPORTS = [
+  EffectsModule.run(UserEffects),
+  ReactiveFormsModule,
+  IdlePreloadModule.forRoot(), // forRoot ensures the providers are only created once
+  RouterModule.forRoot(routes, { useHash: false, preloadingStrategy: IdlePreload }),
+  RouterStoreModule.connectRouter(),
+  StoreModule.provideStore(rootReducer),
+  STORE_DEV_TOOLS_IMPORTS,
+  StoreDevToolsModule
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    APP_DECLARATIONS
+    DashboardComponent,
+    NotFound404Component
   ],
-  entryComponents: [APP_ENTRY_COMPONENTS],
   imports: [
     APP_IMPORTS,
     BrowserModule,
     HttpModule,
   ],
   bootstrap: [AppComponent],
-  providers: [APP_PROVIDERS]
+  providers: [
+    UserActions,
+    UserService
+  ]
 })
 
 export class AppModule {

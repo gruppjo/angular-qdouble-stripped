@@ -3,13 +3,19 @@
 ## JG:
 
 Stripped:
-
 - angular material
 - universal
 
-Compile:
+Scripts:
+- `yarn run server:prod` creates and serves an AOT build ([localhost:8088](http://localhost:8088))
 - `yarn run compile:dev` runs [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) with JIT
-- `yarn run compile:aot:dev` with AOT respectively to compare bundle sizes and page load
+- `yarn run compile:aot:dev` runs with AOT respectively to compare bundle sizes and page load
+
+Troubleshooting:
+- when `server:prod` fails or when bundle analyzer doesn't work for the usual commands (start, server:prod, ...)
+  - `yarn run build:dll` to build dlls
+  - `yarn run compile` to create `compiled/` folder
+  - delete `.awcache`, `compiled`, `dist`, `dll`
 
 ## Material Branch with Universal (Server-side rendering) support
 
