@@ -1,4 +1,5 @@
 import './polyfills.browser.aot';
+import 'jquery';
 declare var ENV: string;
 
 import { enableProdMode } from '@angular/core';

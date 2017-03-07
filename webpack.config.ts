@@ -79,6 +79,7 @@ const DLL_VENDORS = [
   '@angular/platform-server',
   '@angular/router',
   'rxjs',
+  'jquery',
   ...MY_VENDOR_DLLS
 ];
 
@@ -294,7 +295,10 @@ const clientConfig = function webpackConfig(): WebpackConfig {
 
 const defaultConfig = {
   resolve: {
-    extensions: ['.ts', '.js', '.json']
+    extensions: ['.ts', '.js', '.json'],
+    alias: {
+      jquery: 'jquery/src/jquery'
+    }
   }
 };
 

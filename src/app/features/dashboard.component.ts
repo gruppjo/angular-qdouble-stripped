@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
 import {
   trigger,
   state,
@@ -38,6 +38,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
   show: boolean = true;
   constructor(
+    private el: ElementRef,
     fb: FormBuilder,
   ) {
     this.form = fb.group({
@@ -46,6 +47,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    console.log($(this.el.nativeElement).width());
   }
 
   clearName() {
