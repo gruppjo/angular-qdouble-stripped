@@ -12,10 +12,11 @@ Scripts:
 - `yarn run compile:aot:dev` runs with AOT respectively to compare bundle sizes and page load
 
 Troubleshooting:
-- when `server:prod` fails or when bundle analyzer doesn't work for the usual commands (start, server:prod, ...)
+- when `server:prod` fails or when bundle analyzer doesn't work for the usual commands (server:prod, compile:dev ...)
   - `yarn run build:dll` to build dlls
   - `yarn run compile` to create `compiled/` folder
   - delete `.awcache`, `compiled`, `dist`, `dll`
+  - `killall node` for runaway bundle analyzer or webpack-dev servers (EADDRINUSE)
 
 ## Material Branch with Universal (Server-side rendering) support
 

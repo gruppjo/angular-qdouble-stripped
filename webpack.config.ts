@@ -192,11 +192,19 @@ const commonConfig = function webpackConfig(): WebpackConfig {
       }),
       ...MY_CLIENT_PRODUCTION_PLUGINS,
     );
+    if (!E2E && !WATCH) {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({analyzerPort: 5000})
+      );
+    }
   }
-  if (BUILD || DLL) {
-    config.plugins.push(
-      new BundleAnalyzerPlugin({analyzerPort: 5000})
-    );
+  // also run bundle analyzer for compile:dev
+  else {
+    if (BUILD || DLL) {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({analyzerPort: 5000})
+      );
+    }
   }
 
   return config;
